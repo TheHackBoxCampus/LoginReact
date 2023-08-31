@@ -1,0 +1,37 @@
+.container_form {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    padding: .9em;
+    width: 20%;
+    margin: auto;
+    /** flex*/
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    gap:0.7em;
+    background: #fff;
+    border-radius: 0.6em;
+}   
+
+.form input, button{
+    padding: 0.3em;
+    outline: none;
+
+}
+/* * btn efect*/
+button {
+    color: #fff; 
+    background-color: rgb(87, 160, 189);
+    border: none;
+    cursor: pointer;
+    transition: 300ms ease;
+}   
+
+button:hover {
+    background-color: rgb(101, 180, 211);
+}
