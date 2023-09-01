@@ -6,9 +6,9 @@ export default function Form() {
         <div className='container_form'>
             <form className='form'>
                 <h1>Login</h1>
-                <input type="text" placeholder='user'/>
+                <input type="text" placeholder='email'/>
                 <input type="password" placeholder='password'/>
-                <button type='submit'>Enviar</button>
+                <button>Enviar</button>
             </form>
         </div>
     )
