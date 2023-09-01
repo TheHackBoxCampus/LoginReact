@@ -1,1 +1,45 @@
-use("login")
+use("login"); 
+
+function amountCurrentId($collection, $idToUpdate) {
+    let data = db[$collection].find().sort({[$idToUpdate]: -1}).toArray();
+    if(data.length < 1) return 1; 
+    let lastNumber = data[0][$idToUpdate];
+    return lastNumber + 1;
+}
+
+db.createCollection("user", {
+    validator: {
+        $jsonSchema: {
+            title: "users",
+            bsonType: "object",
+            required: ["id_user", "name", "email", "password"],
+            properties: {
+                id_user: {
+                    bsonType: "int",
+                },
+                name : {
+                    bsonType: "string",
+                    pattern: "^[a-zA-Z]+$"
+                },
+                email: {
+                    bsonType: "string",
+                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                },
+                password: {
+                    bsonType: "string",
+                    pattern: "^[a-zA-Z0-9]+$"
+                }
+            }
+        }
+    }
+}); 
+
+// fields in collection users
+db.user.insertOne({
+    id_user: amountCurrentId("user", "id_user"),
+    name: "Miller",
+    email: "kalednarino@gmail.com",
+    password: "miller202034"
+}); 
+
+
