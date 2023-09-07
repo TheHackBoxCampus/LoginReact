@@ -9,6 +9,6 @@ import { login } from "../controllers/v1/auth.controller.js";
 
 const auth = Router(); 
 
-auth.get("/login", loginLimit, dtoInstancesForLogin, validateLogin, login)
+auth.post("/login", loginLimit, dtoInstancesForLogin, validateLogin, login)
 
 export default auth
