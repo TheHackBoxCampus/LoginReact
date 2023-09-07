@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors";
 import auth from "./routes/[auth].js";
 import morgan from "morgan";
+import rutaejemplo from "./routes/example.js";
 
 const app = express(); 
 
@@ -18,5 +19,6 @@ app.use(morgan("dev"))
  */
 
 app.use(auth)
+app.use(rutaejemplo)
 
 export default app; 
