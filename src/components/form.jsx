@@ -1,51 +1,68 @@
-import React, {useRef, useState} from 'react';
+import {useState} from 'react';
 import "../assets/form.css"
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
 import { validateLoginFrontend } from '../schemas/login.[DTO_FRONTEND].js';
+import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
-    const [LoggedIn, setLoggedIn] = useState(false); 
-    const emailRef = useRef(null)
-    const passwordRef = useRef(null)
-// TODO: Resolver y ajustar la logica a las necesidades.
-    const send = async () => {
-        const formik = useFormik({
-            initialValues: {
-                email: '',
-                passport: ''
-            },
-            validationSchema: validateLoginFrontend,
-            onSubmit: async (params) => {
+    let navigate = useNavigate();
+    const [LoggedIn, setLoggedIn] = useState(false);
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: validateLoginFrontend,
+        onSubmit: async (values) => {
+            try {
                 let request = await (await fetch("http://localhost:5000/login", {
-                    method: "GET",
-                    body: user,
+                    method: "POST",
+                    body: JSON.stringify(values),
                     headers: {
                         "Content-Type": "application/json"
                     }
-                })).json(); 
-        
-                if(request.state >= 400) {
-                    Swal.fire({
+                })).json();
+    
+                if(request.status >= 400) {
+                     Swal.fire({
                         title: "Ops!, ha ocurrido un error",
-                        text: request.message,
-                        icon: "error"
+                        icon: "error",
+                        text: request.message
                     })
+                    return setLoggedIn(false)
                 }else {
                     setLoggedIn(true)
-        
-                }    
+                }
+            }catch(err) {
+                console.log(err)
+                setLoggedIn(false)
             }
-        })
+        }
+    })
+    // ? control errors 
+    if(formik.isSubmitting && Object.values(formik.errors).length > 0) {
+        for(let prop in formik.errors) {
+            Swal.fire({
+                title: "Ops!, ha ocurrido un error",
+                icon: "error",
+                text: `${formik.errors[prop]}`
+            })
+        }
     }
+
+    if(LoggedIn) {
+        return navigate("/success")
+    }
+
 
     return (
         <div className='container_form'>
-            <form className='form'>
+            <form className='form' onSubmit={formik.handleSubmit}>
                 <h1>Login</h1>
-                <input name='email' type="text" placeholder='email'/>
-                  <input name='password' type="password" placeholder='password'/>
-                <button onClick={send}>Enviar</button>
+                <input value={formik.values.email} onChange={formik.handleChange} name='email' type="text" placeholder='email'/>
+                  <input value={formik.values.password} onChange={formik.handleChange} name='password' type="password" placeholder='password'/>
+                <button type='submit' disabled={formik.isSubmitting}>Enviar</button>
             </form>
         </div>
     )
