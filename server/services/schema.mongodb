@@ -12,7 +12,7 @@ db.createCollection("user", {
         $jsonSchema: {
             title: "users",
             bsonType: "object",
-            required: ["id_user", "name", "email", "password"],
+            required: ["id_user", "name", "email", "password", "rol"],
             properties: {
                 id_user: {
                     bsonType: "int",
@@ -28,6 +28,9 @@ db.createCollection("user", {
                 password: {
                     bsonType: "string",
                     pattern: "^[a-zA-Z0-9]+$"
+                },
+                rol: {
+                    bsonType: "int"
                 }
             }
         }
@@ -39,7 +42,48 @@ db.user.insertOne({
     id_user: amountCurrentId("user", "id_user"),
     name: "Miller",
     email: "kalednarino@gmail.com",
-    password: "miller202034"
+    password: "miller202034",
+    rol: 2
 }); 
 
+
+// schema rols
+db.createCollection("rol", {
+    validator: {
+        $jsonSchema: {
+            title: "roles de usuario",
+            required: ["id_rol", "name", "permissions"],
+            properties: {
+                id_rol: {
+                    bsonType: "int"
+                },
+                name: {
+                    bsonType: "string",
+                    enum: ["admin", "user"]
+                },
+                permissions: {
+                    bsonType: "array",
+                    items: {
+                        bsonType: "string",
+                        enum: ["get", "post", "put", "delete"],
+                        pattern: "^[a-z]+$"
+                    }
+                }
+            }
+        }
+    }
+}); 
+
+// rol insert a new data
+db.rol.insertOne({
+    id_rol: amountCurrentId("rol", "id_rol"),
+    name: "admin",
+    permissions: ["get", "post", "put", "delete"]
+})
+
+db.rol.insertOne({
+    id_rol: amountCurrentId("rol", "id_rol"),
+    name: "user",
+    permissions: ["get"]
+})
 
