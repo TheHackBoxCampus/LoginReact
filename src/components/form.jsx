@@ -32,6 +32,9 @@ export default function Form() {
                     })
                     return setLoggedIn(false)
                 }else {
+                    let headers = request.headers; 
+                    let token = headers["X-Authorization"];
+                    localStorage.setItem("auth", JSON.stringify(token));    // ref in frontend
                     setLoggedIn(true)
                 }
             }catch(err) {
