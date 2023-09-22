@@ -43,5 +43,5 @@ npm run server
 - Para correr la interfaz del proyecto:
 
 ```bash
-npm run server
+npm run dev
 ```
