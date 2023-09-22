@@ -16,7 +16,7 @@ export default function Form() {
         validationSchema: validateLoginFrontend,
         onSubmit: async (values) => {
             try {
-                let request = await (await fetch("http://localhost:5000/login", {
+                let request = await (await fetch(`http://${import.meta.env.VITE_HOSTNAME}:${import.meta.env.VITE_BACKEND}/login`, {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {
