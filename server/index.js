@@ -1,13 +1,15 @@
+import { loadEnv } from "vite";
 import app from "./app.js";
-import dotenv from "dotenv"
-
-dotenv.config("../")
 
 const start = () => {
     try {
-        let server = JSON.parse(process.env.SERVER);
-        app.listen(server, () => {
-            console.log(`http://${server.hostname}:${server.port}`);
+        const env = loadEnv("development", process.cwd(), "VITE")
+        let config = {
+            hostname: env.VITE_HOSTNAME,
+            port: env.VITE_BACKEND
+        }
+        app.listen(config, () => {
+            console.log(`http://${config.hostname}:${config.port}`);
         }) 
     }catch(err) {
         console.log(err)
