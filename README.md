@@ -13,11 +13,14 @@ npm install
 ```
 
 - Configuracion de variables de entorno 
+- indicated ports: [5186, 5187]
 
 ```txt
-SERVER={"hostname": "", "port": }
-USER_DB={"username": "", "password": "", "database": ""}
-KEY=""
+VITE_HOSTNAME= ... // host clubster or local
+VITE_FRONTEND=... // port authorizated
+VITE_BACKEND=... // port authorizated
+USER_DB={"username": "...", "password": "...", "database": "..."}
+KEY="..." // token secret
 ```
 
 - configura tus credenciales, tu llave secreta y tu host de tu servidor
